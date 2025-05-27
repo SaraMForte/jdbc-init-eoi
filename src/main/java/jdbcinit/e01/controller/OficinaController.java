@@ -45,6 +45,7 @@ public class OficinaController {
         System.out.println("-------------- Create Oficina --------------");
         try {
             oficinaRepository.create(askOficinaToUser());
+            System.out.println("Oficina created successfully.");
         } catch (Exception e) {
             System.out.println("Error to create oficina");
         }
@@ -53,7 +54,8 @@ public class OficinaController {
     public void update() {
         System.out.println("-------------- Update Oficinas --------------");
         try {
-            oficinaRepository.updateById(askOficinaToUser());
+            Oficina oficina = oficinaRepository.updateById(askOficinaToUser());
+            System.out.println("Oficina updated successfully " + oficina);
         } catch (Exception e) {
             System.out.println("Error to update oficina");
         }
