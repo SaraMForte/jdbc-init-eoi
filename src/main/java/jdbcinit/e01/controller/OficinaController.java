@@ -1,7 +1,7 @@
 package jdbcinit.e01.controller;
 
-import jdbcinit.e01.repository.OficinaRepository;
-import jdbcinit.e01.repository.model.Oficina;
+import jdbcinit.e01.persistence.OficinaRepository;
+import jdbcinit.e01.persistence.model.Oficina;
 
 import java.util.Optional;
 import java.util.Scanner;

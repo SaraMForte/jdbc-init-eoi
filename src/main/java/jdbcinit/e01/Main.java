@@ -1,7 +1,7 @@
 package jdbcinit.e01;
 
 import jdbcinit.e01.controller.OficinaController;
-import jdbcinit.e01.repository.OficinaRepository;
+import jdbcinit.e01.persistence.OficinaRepository;
 
 import java.io.IOException;
 import java.sql.SQLException;

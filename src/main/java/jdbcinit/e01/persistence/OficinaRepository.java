@@ -1,6 +1,6 @@
-package jdbcinit.e01.repository;
+package jdbcinit.e01.persistence;
 
-import jdbcinit.e01.repository.model.Oficina;
+import jdbcinit.e01.persistence.model.Oficina;
 
 import java.sql.*;
 import java.util.ArrayList;

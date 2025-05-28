@@ -1,4 +1,4 @@
-package jdbcinit.e01.repository.model;
+package jdbcinit.e01.persistence.model;
 
 public class Oficina {
     private String codigoOficina;
