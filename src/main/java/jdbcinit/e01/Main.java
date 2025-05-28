@@ -25,28 +25,40 @@ public class Main {
     }
 
     public static void mainLoop() {
-        boolean run = true;
-        while (run) {
-            System.out.print("""
-                    -------------- Selection Menu --------------
-                    1.findAll
-                    2.findById
-                    3.create
-                    4.update
-                    5.delete
-                    6.exit
-                    Insert your option:\s"""
-            );
-            String command = scanner.nextLine();
-            switch (command) {
-                case "1" -> oficinaController.findAll();
-                case "2" -> oficinaController.findById();
-                case "3" -> oficinaController.create();
-                case "4" -> oficinaController.update();
-                case "5" -> oficinaController.delete();
-                case "6" -> run = false;
-                default -> System.out.println("Invalid command");
+        boolean chooseNext;
+
+        do {
+            String command = chooseOption();
+            chooseNext = execute(command);
+        } while (chooseNext);
+    }
+
+    private static String chooseOption() {
+        System.out.print("""
+                -------------- Selection Menu --------------
+                1.findAll
+                2.findById
+                3.create
+                4.update
+                5.delete
+                6.exit
+                Insert your option:\s"""
+        );
+        return scanner.nextLine();
+    }
+
+    private static boolean execute(String command) {
+        switch (command) {
+            case "1" -> oficinaController.findAll();
+            case "2" -> oficinaController.findById();
+            case "3" -> oficinaController.create();
+            case "4" -> oficinaController.update();
+            case "5" -> oficinaController.delete();
+            case "6" -> {
+                return false;
             }
+            default -> System.out.println("Invalid command");
         }
+        return true;
     }
 }

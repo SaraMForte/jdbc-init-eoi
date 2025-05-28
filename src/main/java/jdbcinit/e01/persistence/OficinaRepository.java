@@ -9,19 +9,16 @@ import java.util.Optional;
 
 @SuppressWarnings("java:S112")
 public class OficinaRepository {
-    private Connection conn;
+    private final Connection conn;
 
     public OficinaRepository(Connection conn) {
         this.conn = conn;
     }
 
-    public List<Oficina> findAll() throws Exception {
+    public List<Oficina> findAll() throws DataAccessException {
         final String sqlQuery = "SELECT * FROM oficina ORDER BY codigo_oficina";
 
-        try (
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sqlQuery);
-        ) {
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sqlQuery)) {
             List<Oficina> oficinas = new ArrayList<>();
 
             while (rs.next()) {
@@ -29,16 +26,14 @@ public class OficinaRepository {
             }
             return oficinas;
         } catch (SQLException e) {
-            throw new Exception("Cant not List oficinas", e);
+            throw new DataAccessException("Cant not List oficinas", e);
         }
     }
 
-    public Optional<Oficina> findById(String id) throws Exception {
+    public Optional<Oficina> findById(String id) throws DataAccessException {
         final String sqlQuery = "SELECT * FROM oficina WHERE codigo_oficina = ?";
 
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sqlQuery)
-        ) {
+        try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)) {
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
 
@@ -48,11 +43,11 @@ public class OficinaRepository {
 
             return Optional.of(extractOficinaFrom(rs));
         } catch (SQLException e) {
-            throw new Exception("Error to find empleado with id " + id, e);
+            throw new DataAccessException("Error to find empleado with id " + id, e);
         }
     }
 
-    public Oficina extractOficinaFrom(ResultSet rs) throws SQLException {
+    private Oficina extractOficinaFrom(ResultSet rs) throws SQLException {
         Oficina oficina = new Oficina();
         oficina.setCodigoOficina(rs.getString("codigo_oficina"));
         oficina.setCiudad(rs.getString("ciudad"));
@@ -65,17 +60,15 @@ public class OficinaRepository {
         return oficina;
     }
 
-    public void create(Oficina oficina) throws Exception {
+    public void create(Oficina oficina) throws DataAccessException {
         final String sqlQuery = """
-                INSERT INTO oficina 
+                INSERT INTO oficina
                     (codigo_oficina, ciudad, pais, region, codigo_postal, telefono, linea_direccion1, linea_direccion2)
-                VALUES 
+                VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?);
                 """;
 
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sqlQuery)
-        ) {
+        try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)) {
             stmt.setString(1, oficina.codigoOficina());
             stmt.setString(2, oficina.ciudad());
             stmt.setString(3, oficina.pais());
@@ -86,14 +79,14 @@ public class OficinaRepository {
             stmt.setString(8, oficina.lineaDireccion2());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new Exception("Error to create oficina", e);
+            throw new DataAccessException("Error to create oficina", e);
         }
     }
 
-    public Oficina updateById(Oficina oficina) throws Exception {
+    public Oficina updateById(Oficina oficina) throws DataAccessException {
         final String sqlQuery = """
                 UPDATE oficina
-                SET 
+                SET
                     ciudad = ?,
                     pais = ?,
                     region = ?,
@@ -101,13 +94,11 @@ public class OficinaRepository {
                     telefono = ?,
                     linea_direccion1 = ?,
                     linea_direccion2 = ?
-                WHERE 
+                WHERE
                     codigo_oficina = ?
                 """;
 
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sqlQuery)
-        ) {
+        try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)) {
             stmt.setString(1, oficina.ciudad());
             stmt.setString(2, oficina.pais());
             stmt.setString(3, oficina.region());
@@ -120,24 +111,22 @@ public class OficinaRepository {
 
             return oficina;
         } catch (SQLException e) {
-            throw new Exception("Error to update oficina", e);
+            throw new DataAccessException("Error to update oficina", e);
         }
     }
 
-    public void deleteById(String id) throws Exception {
+    public void deleteById(String id) throws DataAccessException {
         final String sqlQuery = """
-                DELETE FROM oficina 
-                WHERE 
+                DELETE FROM oficina
+                WHERE
                     codigo_oficina = ?
                 """;
 
-        try (
-                PreparedStatement stmt = conn.prepareStatement(sqlQuery)
-        ) {
+        try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)) {
             stmt.setString(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new Exception("Error to delete oficina", e);
+            throw new DataAccessException("Error to delete oficina", e);
         }
     }
 }

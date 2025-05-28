@@ -76,6 +76,15 @@ public class Oficina {
 
     @Override
     public String toString() {
-        return "Oficina{" + "codigoOficina='" + codigoOficina + '\'' + ", ciudad='" + ciudad + '\'' + ", pais='" + pais + '\'' + ", region='" + region + '\'' + ", codigoPostal='" + codigoPostal + '\'' + ", telefono='" + telefono + '\'' + ", lineaDireccion1='" + lineaDireccion1 + '\'' + ", lineaDireccion2='" + lineaDireccion2 + '\'' + '}';
+        return "Oficina{" +
+               "codigoOficina='" + codigoOficina + '\'' +
+               ", ciudad='" + ciudad + '\'' +
+               ", pais='" + pais + '\'' +
+               ", region='" + region + '\'' +
+               ", codigoPostal='" + codigoPostal + '\'' +
+               ", telefono='" + telefono + '\'' +
+               ", lineaDireccion1='" + lineaDireccion1 + '\'' +
+               ", lineaDireccion2='" + lineaDireccion2 + '\'' +
+               '}';
     }
 }
