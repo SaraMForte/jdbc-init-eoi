@@ -1,4 +1,4 @@
-package jdbcinit.e01;
+package jdbcinit.e01.infrastructure.persistence;
 
 import java.io.Closeable;
 import java.io.IOException;
