@@ -1,7 +1,6 @@
 package jdbcinit.e01.infrastructure.persistence;
 
 import jdbcinit.e01.application.DataAccessException;
-import jdbcinit.e01.application.OfficeRepository;
 import jdbcinit.e01.domain.Office;
 import jdbcinit.e01.infrastructure.persistence.model.OficinaJDBC;
 
@@ -12,10 +11,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("java:S112")
-public class OfficeService implements OfficeRepository {
+public class OficinaRepository implements jdbcinit.e01.application.OfficeRepository {
     private final Connection conn;
 
-    public OfficeService(Connection conn) {
+    public OficinaRepository(Connection conn) {
         this.conn = conn;
     }
 

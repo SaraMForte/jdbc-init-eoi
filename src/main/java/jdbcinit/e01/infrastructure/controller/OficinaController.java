@@ -1,7 +1,9 @@
 package jdbcinit.e01.infrastructure.controller;
 
+import jdbcinit.e01.application.OfficeRepository;
+import jdbcinit.e01.application.OfficeService;
 import jdbcinit.e01.domain.Office;
-import jdbcinit.e01.infrastructure.persistence.OfficeService;
+import jdbcinit.e01.infrastructure.persistence.OficinaRepository;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -61,26 +63,26 @@ public class OficinaController {
         }
     }
 
-//    //TODO - Complete this updateFieldById
-//    public void updateFieldById() {
-//        System.out.println("-------------- Update Oficina Field --------------");
-//        try {
-//            String id = askToUser("Enter id of oficina: ");
-//            String field = askToUser("Enter field of oficina: ");
-//            String value = askToUser("Enter value for field " + field + ": ");
-//
-//            Optional<Oficina> oficina = officeService.findById(id);
-//
-//
-//            if (oficina.isPresent()) {
-//                System.out.println("Oficina updated successfully: \n" + oficina.get());
-//            } else {
-//                System.out.println("The id " + id + " does not exist in oficina.");
-//            }
-//        } catch (DataAccessException e) {
-//            System.out.println("Error to update oficina field");
-//        }
-//    }
+/*  TODO - Complete this updateFieldById
+    public void updateFieldById() {
+        System.out.println("-------------- Update Oficina Field --------------");
+        try {
+            String id = askToUser("Enter id of oficina: ");
+            String field = askToUser("Enter field of oficina: ");
+            String value = askToUser("Enter value for field " + field + ": ");
+
+            Optional<Oficina> oficina = officeService.findById(id);
+
+
+            if (oficina.isPresent()) {
+                System.out.println("Oficina updated successfully: \n" + oficina.get());
+            } else {
+                System.out.println("The id " + id + " does not exist in oficina.");
+            }
+        } catch (DataAccessException e) {
+            System.out.println("Error to update oficina field");
+        }
+    }*/
 
     private Office askOficinaToUser() {
         System.out.println("-".repeat(10) + " Insert the data of oficina " + "-".repeat(10));

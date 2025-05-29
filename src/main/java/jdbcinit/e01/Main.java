@@ -2,7 +2,7 @@ package jdbcinit.e01;
 
 import jdbcinit.e01.infrastructure.controller.OficinaController;
 import jdbcinit.e01.infrastructure.persistence.ConnectionBBDD;
-import jdbcinit.e01.infrastructure.persistence.OfficeService;
+import jdbcinit.e01.infrastructure.persistence.OficinaRepository;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,7 +18,7 @@ public class Main {
 
 
         try (var connectionBbdd = new ConnectionBBDD()) {
-            oficinaController = new OficinaController(new OfficeService(connectionBbdd.getConnection()));
+            oficinaController = new OficinaController(new OficinaRepository(connectionBbdd.getConnection()));
             mainLoop();
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
