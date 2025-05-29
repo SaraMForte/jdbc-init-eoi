@@ -1,6 +1,6 @@
 package jdbcinit.e01.infrastructure.controller;
 
-import jdbcinit.e01.application.DataAccessException;
+import jdbcinit.e01.application.exception.DataAccessException;
 import jdbcinit.e01.application.OfficeService;
 import jdbcinit.e01.domain.Office;
 

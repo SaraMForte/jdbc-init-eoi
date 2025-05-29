@@ -1,6 +1,9 @@
 package jdbcinit.e01.infrastructure.persistence;
 
-import jdbcinit.e01.application.DataAccessException;
+import jdbcinit.e01.application.exception.DataAccessException;
+import jdbcinit.e01.application.exception.DatabaseMetadataAccessException;
+import jdbcinit.e01.application.exception.NotUpdatableResultSetException;
+import jdbcinit.e01.application.repository.OfficeRepository;
 import jdbcinit.e01.domain.Office;
 import jdbcinit.e01.infrastructure.persistence.model.OficinaJDBC;
 
@@ -10,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("java:S112")
-public class OficinaRepository implements jdbcinit.e01.application.OfficeRepository {
+public class OficinaRepository implements OfficeRepository {
     private final Connection conn;
 
     public OficinaRepository(Connection conn) {
@@ -117,7 +120,7 @@ public class OficinaRepository implements jdbcinit.e01.application.OfficeReposit
         final String sqlQuery = "SELECT * FROM oficina WHERE codigo_oficina = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sqlQuery, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             if (!isUpdatable()) {
-                throw new Exception("Cant not get metadata of database");
+                throw new NotUpdatableResultSetException("Cant not get metadata of database");
             }
 
             stmt.setString(1, id);
@@ -129,19 +132,19 @@ public class OficinaRepository implements jdbcinit.e01.application.OfficeReposit
 
             return findById(id).orElseThrow(() -> new Exception("Cant not find office with id " + id));
         } catch (Exception e) {
-            throw new DataAccessException("Error to update oficina by field", e);
+            throw new DataAccessException("Error to update oficina by field: " + e.getMessage(), e);
         }
     }
 
-    private boolean isUpdatable() throws Exception {
+    private boolean isUpdatable() throws DatabaseMetadataAccessException {
         try {
             DatabaseMetaData metaData = conn.getMetaData();
             return metaData.supportsResultSetConcurrency(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE
+            );
         } catch (SQLException e) {
-            return false;
+            throw new DatabaseMetadataAccessException("Unable to retrieve database metadata to determine if the ResultSet is updatable.", e);
         }
-
     }
 
     @Override

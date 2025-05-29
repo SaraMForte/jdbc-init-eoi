@@ -1,5 +1,6 @@
-package jdbcinit.e01.application;
+package jdbcinit.e01.application.repository;
 
+import jdbcinit.e01.application.exception.DataAccessException;
 import jdbcinit.e01.domain.Office;
 
 import java.util.List;
