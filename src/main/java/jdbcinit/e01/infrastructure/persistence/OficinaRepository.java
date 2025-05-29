@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("java:S112")
 public class OficinaRepository implements jdbcinit.e01.application.OfficeRepository {
@@ -29,10 +28,7 @@ public class OficinaRepository implements jdbcinit.e01.application.OfficeReposit
                 oficinaJDBCS.add(extractOficinaFrom(rs));
             }
 
-            return oficinaJDBCS.stream()
-                    .map(OficinaJDBC::toOffice)
-                    .collect(Collectors
-                    .toList());
+            return oficinaJDBCS.stream().map(OficinaJDBC::toOffice).toList();
         } catch (SQLException e) {
             throw new DataAccessException("Cant not List oficinas", e);
         }
@@ -57,16 +53,7 @@ public class OficinaRepository implements jdbcinit.e01.application.OfficeReposit
     }
 
     private OficinaJDBC extractOficinaFrom(ResultSet rs) throws SQLException {
-        return new OficinaJDBC(
-                rs.getString("codigo_oficina"),
-                rs.getString("ciudad"),
-                rs.getString("pais"),
-                rs.getString("region"),
-                rs.getString("codigo_postal"),
-                rs.getString("telefono"),
-                rs.getString("linea_direccion1"),
-                rs.getString("linea_direccion2")
-        );
+        return new OficinaJDBC(rs.getString("codigo_oficina"), rs.getString("ciudad"), rs.getString("pais"), rs.getString("region"), rs.getString("codigo_postal"), rs.getString("telefono"), rs.getString("linea_direccion1"), rs.getString("linea_direccion2"));
     }
 
     @Override
@@ -124,6 +111,37 @@ public class OficinaRepository implements jdbcinit.e01.application.OfficeReposit
         } catch (SQLException e) {
             throw new DataAccessException("Error to update oficina", e);
         }
+    }
+
+    public Office updateFieldById(String id, String field, String value) throws DataAccessException {
+        final String sqlQuery = "SELECT * FROM oficina WHERE codigo_oficina = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sqlQuery, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+            if (!isUpdatable()) {
+                throw new Exception("Cant not get metadata of database");
+            }
+
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            rs.absolute(1);
+            rs.updateString(field, value);
+            rs.updateRow();
+
+            return findById(id).orElseThrow(() -> new Exception("Cant not find office with id " + id));
+        } catch (Exception e) {
+            throw new DataAccessException("Error to update oficina by field", e);
+        }
+    }
+
+    private boolean isUpdatable() throws Exception {
+        try {
+            DatabaseMetaData metaData = conn.getMetaData();
+            return metaData.supportsResultSetConcurrency(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        } catch (SQLException e) {
+            return false;
+        }
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package jdbcinit.e01;
 
+import jdbcinit.e01.application.OfficeService;
 import jdbcinit.e01.infrastructure.controller.OficinaController;
 import jdbcinit.e01.infrastructure.persistence.ConnectionBBDD;
 import jdbcinit.e01.infrastructure.persistence.OficinaRepository;
@@ -18,7 +19,8 @@ public class Main {
 
 
         try (var connectionBbdd = new ConnectionBBDD()) {
-            oficinaController = new OficinaController(new OficinaRepository(connectionBbdd.getConnection()));
+            OfficeService officeService = new OfficeService(new OficinaRepository(connectionBbdd.getConnection()));
+            oficinaController = new OficinaController(officeService);
             mainLoop();
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
@@ -55,7 +57,7 @@ public class Main {
             case "2" -> oficinaController.findById();
             case "3" -> oficinaController.create();
             case "4" -> oficinaController.update();
-//            case "5" -> oficinaController.updateFieldById();
+            case "5" -> oficinaController.updateFieldById();
             case "6" -> oficinaController.delete();
             case "7" -> {
                 return false;

@@ -14,5 +14,7 @@ public interface OfficeRepository {
 
     Office updateById(Office oficina) throws DataAccessException;
 
+    public Office updateFieldById(String id, String field, String value) throws DataAccessException;
+
     void deleteById(String id) throws DataAccessException;
 }

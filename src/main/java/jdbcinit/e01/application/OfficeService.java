@@ -29,6 +29,10 @@ public class OfficeService {
         return officeRepository.updateById(oficina);
     }
 
+    public Office updateFieldById(String id, String field, String value) throws DataAccessException  {
+        return officeRepository.updateFieldById(id, field, value);
+    }
+
     public void deleteById(String id) throws DataAccessException {
         officeRepository.deleteById(id);
     }
